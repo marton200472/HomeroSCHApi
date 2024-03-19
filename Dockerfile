@@ -7,17 +7,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["./HomeroAPI.csproj", "HomeroAPI/"]
-RUN dotnet restore "HomeroAPI/HomeroAPI.csproj"
+COPY ["./HomeroSCHApi.csproj", "HomeroSCHApi/"]
+RUN dotnet restore "HomeroSCHApi/HomeroSCHApi.csproj"
 COPY . .
-WORKDIR "/src/HomeroAPI"
-RUN dotnet build "HomeroAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/HomeroSCHApi"
+RUN dotnet build "HomeroSCHApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "HomeroAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "HomeroSCHApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HomeroAPI.dll"]
+ENTRYPOINT ["dotnet", "HomeroSCHApi.dll"]

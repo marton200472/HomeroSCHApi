@@ -6,8 +6,10 @@ services:
       - postgres
       - grafana
     ports:
-      - "8000:8000"
-      - "8001:8001"
+      - "8080:8080"
+      - "8081:8081"
+    links:
+      - postgres
   postgres:
     restart: always
     image: postgres:16

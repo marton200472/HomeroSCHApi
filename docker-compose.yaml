@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  homerosch:
+    build: .
+    depends_on:
+      - postgres
+      - grafana
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+  postgres:
+    restart: always
+    image: postgres:16
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: valaminagyonnehez
+  grafana:
+    restart: always
+    image: grafana/grafana
+    depends_on:
+      - postgres
+volumes:
+  postgres-volume:
